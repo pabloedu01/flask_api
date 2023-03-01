@@ -87,5 +87,9 @@ def filter_files():
     for file in mongo.db.files.find({'tags': tag}):
         files.append({'file_path': file['file_path'], 'tags': file['tags']})
     return jsonify({'files': files})
+
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({'Message': 'Olá mundo'})
 if __name__ == '__main__':
     app.run()
