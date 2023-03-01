@@ -70,15 +70,28 @@ def upload_file():
 def list_files():
     page = request.args.get('page', default=1, type=int)
     per_page = request.args.get('per_page', default=10, type=int)
+    query = request.args.get('query', default=None, type=str)
+
     files = []
-    cursor = mongo.db.files.find()
-    total = mongo.db.files.estimated_document_count()
+    if query:
+        cursor = mongo.db.files.find({
+            '$or': [
+                {'file_path': {'$regex': query}},
+                {'tags': {'$regex': query}}
+            ]
+        })
+        total = cursor.count()
+    else:
+        cursor = mongo.db.files.find()
+        total = mongo.db.files.estimated_document_count()
+
     pagination = cursor.skip((page - 1) * per_page).limit(per_page)
 
     for file in pagination:
         files.append({'file_path': file['file_path'], 'tags': file['tags']})
 
     return jsonify({'files': files, 'total': total, 'current_page': page, 'per_page': per_page})
+
 
 
 @app.route('/', methods=['GET'])
