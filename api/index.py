@@ -80,14 +80,6 @@ def list_files():
     return jsonify({'files': files, 'total': total, 'current_page': page, 'per_page': per_page})
 
 
-@app.route('/filter_files', methods=['GET'])
-def filter_files():
-    tag = request.args.get('tag')
-    files = []
-    for file in mongo.db.files.find({'tags': tag}):
-        files.append({'file_path': file['file_path'], 'tags': file['tags']})
-    return jsonify({'files': files})
-
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({'Message': 'Olá mundo'})
