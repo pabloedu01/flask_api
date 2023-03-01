@@ -91,5 +91,5 @@ def filter_files():
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({'Message': 'Olá mundo'})
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()
