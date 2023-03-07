@@ -35,5 +35,10 @@ def protected():
     current_user = get_jwt_identity()
     return jsonify({'message': f'Olá, {current_user}!'}), 200
 
+@app.route('/test', methods=['GET'])
+def test():
+    
+    return jsonify({'message': f'Olá, você acessou'}), 200
+
 if __name__ == '__main__':
     app.run()
